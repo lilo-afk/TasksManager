@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta property="og:title" content="Gestão de Tarefas" />
+    <meta property="og:description" content="Organize-se! Utilize este site para gerenciar suas tarefas." />
+    <meta property="og:author" content="Lilo-afk" />
+
+    <meta property="og:image" content="../static/assets/favicon.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+
+    <meta property="og:type" content="Website" />
+
+    <link th:href="@{/css/tasks.css}" rel="stylesheet">
+    <link rel="shortcut icon" href="../static/assets/favicon.jpg" type="image/x-icon">
+
+    <title>Gestão de Tarefas</title>
+</head>
+
+<body>
+    <main class=" table">
+        <section class="table_header">
+            <h1>Gestão de Tarefas</h1>
+            <button class="add-task">
+                <img src="./assets/add-icon.svg" alt="Adicionar uma nova tarefa">
+                Adicionar Tarefa
+            </button>
+        </section>
+
+        <dialog class="modal-form">
+            <form th:action="@{/tasks}" th:object="${task}" id="task-form" method="POST" class="form">
+                <div class="title-form">
+                    <h2>Criar nova tarefa</h2>
+                </div>
+                <div class="input-field">
+                    <label>Responsável</label>
+                    <input id="name" type="text" th:field="*{name}" placeholder="Digite um nome" required>
+                    <!-- <span class="errors">Erro de input</span> -->
+                </div>
+                <div class="input-field">
+                    <label for="">Tarefa(máx.45)</label>
+                    <textarea id="task" type="text" rows="2" th:field="*{task}" placeholder="Digite uma tarefa"
+                        maxlength="45" required></textarea>
+                    <!-- <span class="errors">Erro de input</span> -->
+                </div>
+
+
+                <div class="input-field">
+                    <label for="">Status</label>
+                    <select class="select-options" th:field="*{status}" id="status" required>
+                        <option class="item-options" value="A_FAZER">A fazer</option>
+                        <option value="FAZENDO">Fazendo</option>
+                        <option value="CONCLUIDA">Concluída</option>
+                    </select>
+                    <!-- <span class="errors">Erro de input</span> -->
+                </div>
+
+                <div class="input-field">
+                    <label for="">Prioridade</label>
+                    <select class="select-options" th:field="*{priority}" id="priority" required>
+                        <option class="item-options" value="BAIXA">Baixa</option>
+                        <option value="MEDIA">Média</option>
+                        <option value="ALTA">Alta</option>
+                    </select>
+                </div>
+                <div class="input-field">
+                    <label for="">Prazo</label>
+                    <input id="date" type="date" th:field="*{dueDate}" required>
+                </div>
+
+                <div class="btn-container">
+                    <button class="close-modal btn">Fechar</button>
+                    <button id="btn" type="submit" class="submit-form btn">Adicionar</button>
+                </div>
+            </form>
+
+        </dialog>
+
+        <section class="table_body">
+            <table>
+                <thead>
+                    <tr>
+                        <th title="ID da tarefa">ID</th>
+                        <th title="Responsável pela tarefa">Responsável</th>
+                        <th title="Breve descrição da tarefa">Tarefa</th>
+                        <th title="Status de progressão">Status</th>
+                        <th title="Grau de prioridade">Prioridade</th>
+                        <th title="Prazo da tarefa">Prazo</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="task : ${tasks}">
+                        <td th:text="${task.id}"></td>
+                        <td th:text="${task.name}"></td>
+                        <td th:text="${task.task}"></td>
+                        <!-- Exemplo para Status -->
+                        <td th:text="${task.status.toString()}">
+                        </td>
+
+                        <td th:text="${task.priority.toString()}">
+                        </td>
+
+                        <td th:text="${task.dueDate}"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+    </main>
+
+    <script th:src="@{/js/scripts.js}"></script>
+</body>
+
+</html>
